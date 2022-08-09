@@ -1,0 +1,53 @@
+{% if not GIT_DESCRIBE_NUMBER is defined %}
+  {% set GIT_DESCRIBE_NUMBER = 0 %}
+{% endif %}
+
+package:
+    name: marching_cubes
+
+  {% if GIT_DESCRIBE_NUMBER|int == 0 %}
+    version: {{GIT_DESCRIBE_TAG}}
+  {% else %}
+    # If we're using a non-tagged revision, append '.postN' to the version
+    version: {{GIT_DESCRIBE_TAG}}.post{{GIT_DESCRIBE_NUMBER}}
+  {% endif %}
+
+source:
+  path: ../
+  patches:
+    # Can be removed once opemmp implementation used on windows accepts size_t
+    # in loops.
+    - 0001-ssize_t-in-parallel-fors-for-windows.patch  # [win]
+
+build:
+  number: 0
+  string: py{{CONDA_PY}}_{{PKG_BUILDNUM}}_h{{PKG_HASH}}_g{{GIT_FULL_HASH[:7]}}
+
+requirements:
+  build:
+    - cmake
+    - {{ compiler("cxx") }}
+  host:
+    - python
+    - boost-cpp {{ boost }}
+    - pybind11
+  run:
+    - {{ pin_compatible("python") }}
+    - numpy >=1.12
+
+test:
+  imports:
+    - marching_cubes
+  requires:
+    - pytest
+    - pandas
+  source_files:
+    - test/*
+  commands:
+    - pytest test
+
+about:
+  home: http://ilastik.org
+  license: BSD (3-clause)
+  liscense_file: LICENSE
+  summary: A fast marching cubes implementation in C++ with python bindings.
