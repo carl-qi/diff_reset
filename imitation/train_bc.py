@@ -239,26 +239,3 @@ def run_task(arg_vv, log_dir, exp_name):  # Chester launch
             if epoch % (args.il_eval_freq) == 0:
                 agent.save(os.path.join(logger.get_dir(), f'agent_{epoch}.ckpt'))
     env.close()
-
-
-# if __name__ == '__main__':
-
-#     vv = {
-#         'task': 'train_policy',
-#         'il_eval_freq': 1,
-#         'frame_stack': 1,
-#         'use_pcl': 'full_pcl',
-#         'il_num_epoch': 500,
-#         'il_eval_freq':20,
-#         'batch_size': 10,
-#         "step_per_epoch": 0,
-#         "run_name": "",
-#         "hindsight_goal_ratio": 0.,
-#         "ir_lr": 0.0001,
-#         "obs_noise": 0.,
-#         "buffer_horizon": 170,
-#         'traj_limit': 1,
-#         'eval_train':True,
-#         'dataset_path': '/home/jianrenw/carl/research/dev/PlasticineLab/data/seuss/1129_Roll_exp_gendemo_new/1129_Roll_exp_gendemo_new/1129_Roll_exp_gendemo_new_2021_12_05_15_37_13_0001/dataset.gz'
-#     }
-#     run_task(vv, './data/debug_bc', 'test')

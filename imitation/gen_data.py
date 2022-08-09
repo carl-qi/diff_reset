@@ -80,9 +80,6 @@ def run_task(arg_vv, log_dir, exp_name):  # Chester launch
     # ----------preparation done------------------
     buffer = ImitationReplayBuffer(args)
     buffer2 = None
-    # buffer2 = ImitationReplayBuffer(args)
-    # buffer2.load('/home/hanwenq/Projects/PlasticineLab/data/local/1206_Roll_benchmarking/1206_Roll_benchmarking_2021_12_06_15_41_39_0005/dataset.gz')
-    # buffer2.load('/home/jianrenw/carl/research/dev/PlasticineLab/data/seuss/1206_Roll_benchmarking/1206_Roll_benchmarking/1206_Roll_benchmarking_2021_12_06_15_41_39_0005/dataset.gz')
     obs_channel = len(args.img_mode) * args.frame_stack
     img_obs_shape = (args.image_dim, args.image_dim, obs_channel)
     env = make(args.env_name, nn=(args.algo == 'nn'))
