@@ -14,25 +14,25 @@ def get_dataset_path(env_name, mode, debug):
         # 'Roll-v1_debug': '/home/jianrenw/carl/research/dev/PlasticineLab/data/seuss/1102_Roll_exp_gendemo',
         # 'Roll-v1_debug': '/home/jianrenw/carl/research/dev/PlasticineLab/data/debug/dataset.gz'
         # 'Roll-v1_debug': '/home/jianrenw/carl/research/dev/PlasticineLab/data/seuss/1102_Roll_exp_gendemo/1102_Roll_exp_gendemo/1102_Roll_exp_gendemo_2021_11_02_17_58_03_0001/dataset.gz'
-        'RollLong-v1_debug':'new_dataset3.xz',
-        'RollTest-v1':'new_dataset3.xz',
-        'RollTest-v1_debug':'new_dataset3.xz',
-        'RollTest-v2':'dataset_small_tool_0.6_0.15.xz',
-        'RollTest-v2_debug':'dataset_small_tool_0.6_0.15.xz',
-        'RollExp-v1':'0227_dataset_filtered_0.6_0.15.xz',
-        'RollExp-v1_debug':'0227_dataset_filtered_0.6_0.15.xz',
+        'RollLong-v1_debug':'data/xzfiles/new_dataset3.xz',
+        'RollTest-v1':'data/xzfiles/new_dataset3.xz',
+        'RollTest-v1_debug':'data/xzfiles/new_dataset3.xz',
+        'RollTest-v2':'data/xzfiles/dataset_small_tool_0.6_0.15.xz',
+        'RollTest-v2_debug':'data/xzfiles/dataset_small_tool_0.6_0.15.xz',
+        'RollExp-v1':'data/xzfiles/0227_dataset_filtered_0.6_0.15.xz',
+        'RollExp-v1_debug':'data/xzfiles/0227_dataset_filtered_0.6_0.15.xz',
         # 'RollLong-v1': '/home/jianrenw/carl/research/dev/PlasticineLab/data/seuss/1129_Roll_exp_gendemo_new/1129_Roll_exp_gendemo_new',
     }
     if mode == 'seuss':
         d = {
         'RollLong-v1_debug':'/home/hanwenq/Projects/PlasticineLab/data/local/1129_Roll_exp_gendemo_new',
         'RollLong-v1': '/home/hanwenq/Projects/PlasticineLab/data/local/1129_Roll_exp_gendemo_new',
-        'RollTest-v1':'new_dataset3.xz',
+        'RollTest-v1':'data/xzfiles/data/xzfiles/new_dataset3.xz',
         'RollTest-v1_debug':'new_dataset3.xz',
-        'RollTest-v2':'dataset_small_tool_0.6_0.15.xz',
-        'RollTest-v2_debug':'dataset_small_tool_0.6_0.15.xz',
-        'RollExp-v1':'0214_dataset_small_tool_0.6_0.15.xz',
-        'RollExp-v1_debug':'0214_dataset_small_tool_0.6_0.15.xz',
+        'RollTest-v2':'data/xzfiles/dataset_small_tool_0.6_0.15.xz',
+        'RollTest-v2_debug':'data/xzfiles/dataset_small_tool_0.6_0.15.xz',
+        'RollExp-v1':'data/xzfiles/0214_dataset_small_tool_0.6_0.15.xz',
+        'RollExp-v1_debug':'data/xzfiles/0214_dataset_small_tool_0.6_0.15.xz',
     }
     return d[key]
 

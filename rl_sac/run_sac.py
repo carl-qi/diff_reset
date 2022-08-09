@@ -13,7 +13,7 @@ import torch
 import argparse
 import os
 from imitation.env_spec import get_tool_spec
-from imitation.eval_helper import get_eval_traj
+from imitation.env_spec import get_eval_traj
 from plb.utils.visualization_utils import make_grid, save_numpy_as_gif
 
 import tqdm
@@ -22,7 +22,7 @@ import pickle
 from chester import logger
 from rl_sac.sac import SAC
 from imitation.buffer import ReplayBuffer
-from imitation.eval_helper import get_threshold
+from imitation.env_spec import get_threshold
 
 
 # Runs policy for X episodes and returns average reward

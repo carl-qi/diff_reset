@@ -1,0 +1,48 @@
+# smaller rollingpin bigger E, for poicy training
+SIMULATOR:
+  E: 10000.
+  n_particles: 10000
+  yield_stress: 200.
+  ground_friction: 1.5
+  gravity: (0, -20, 0)
+  quality: 1
+SHAPES:
+  - shape: sphere
+    init_pos: (0.5, 0.2, 0.45)
+    radius: (0.05)
+    color: 100
+
+PRIMITIVES:
+  - shape: RollingPinExt
+    h: 0.23
+    r: 0.04 # 0.03 for roll 1102 or before otherwise use 0.04
+    init_pos: (0.5, 0.25, 0.45) # was 0.2 on the second dimension
+    init_rot: (0.707, 0.707, 0., 0.)
+    color: (1., 0., 0.)
+    friction: 0.9
+    action:
+      dim: 6
+      scale: (0.7, 0.05, 0.005, 0.005, 0., 0.)
+    lower_bound: (0., 0.04, 0.)
+  - shape: Box # Obstacle
+    size: (0.5, 0.02, 0.45) # To make rendering realistic. Actual floor is higher than the rendered
+    # init_pos: (0.28, 0.04, 0.5)
+    init_pos: (0.5, 0.02, 0.45)
+    init_rot: (1., 0., 0., 0.)
+    color: (0.5, 0.5, 0.5)
+    friction: 5. # Make this larger later
+    action:
+      dim: 0
+ENV:
+  cached_state_path: datasets/0212_Roll
+
+RENDERER:
+  name: tina
+  tina_img_res: 512
+  cam_center: (0.5, 0.2, 0.45)
+  cam_theta: 0.
+  cam_phi: -0.8
+  cam_radius: 0.8
+  use_directional_light: True
+  light_direction: (0., 1., 1.)
+

@@ -1,6 +1,5 @@
 *.npy
 *.xz
-*.yml
 *.png
 *.ipynb_checkpoints
 plotting

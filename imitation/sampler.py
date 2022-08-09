@@ -4,8 +4,6 @@ import time
 import numpy as np
 from numpy.core.fromnumeric import shape, size
 import torch
-
-from imitation.agent import Agent
 from plb.algorithms.bc.bc_agent import Agent as BCAgent
 from plb.algorithms.bc.ibc_agent import Agent as IBCAgent
 from imitation.utils import get_camera_matrix, get_camera_params, get_partial_pcl, get_partial_pcl2, get_roller_action_from_transform, img_to_tensor, rigid_transform_3D, rotate_y_axis_angle, to_action_mask, LIGHT_DOUGH, LIGHT_TOOL, DARK_DOUGH, DARK_TOOL
@@ -50,7 +48,7 @@ def sample_traj(env, agent, reset_key, tid, buffer=None, action_mask=None, actio
     agent_time = 0
     env_time = 0
     st_time = time.time()
-    if not agent.args.open_loop and (isinstance(agent, Agent) or isinstance(agent, BCAgent) or isinstance(agent, IBCAgent)): # learner
+    if not agent.args.open_loop and (isinstance(agent, BCAgent) or isinstance(agent, IBCAgent)): # learner
 
         view, proj = get_camera_matrix(env)
         if isinstance(env, SubprocVecEnv):

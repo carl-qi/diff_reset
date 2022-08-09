@@ -14,7 +14,7 @@ import os
 from rl_td3.td3 import TD3
 from imitation.buffer import ReplayBuffer
 from imitation.env_spec import get_tool_spec
-from imitation.eval_helper import get_eval_traj
+from imitation.env_spec import get_eval_traj
 from plb.utils.visualization_utils import make_grid, save_numpy_as_gif
 from plb.envs.mp_wrapper import make_mp_envs
 from rl_td3.profiler import Profiler

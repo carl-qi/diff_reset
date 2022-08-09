@@ -3,34 +3,6 @@ from .env import PlasticineEnv
 from gym import register
 
 ENVS = []
-for env_name in ['Move', 'Torus', 'Rope', 'Writer', "Pinch", "Rollingpin", "Chopsticks", "Table", 'TripleMove', 'Assembly']:
-    for id in range(5):
-        register(
-            id=f'{env_name}-v{id + 1}',
-            entry_point=f"plb.envs.env:PlasticineEnv",
-            kwargs={'cfg_path': f"{env_name.lower()}.yml", "version": id + 1},
-            max_episode_steps=50
-        )
-
-register(id='PushSpread-v1',
-         entry_point=f"plb.envs.multitask_env:MultitaskPlasticineEnv",
-         kwargs={'cfg_path': "push_spread.yml", "version": 1},
-         max_episode_steps=50)
-
-register(id='GatherMove-v1',
-         entry_point=f"plb.envs.multitask_env:MultitaskPlasticineEnv",
-         kwargs={'cfg_path': "gather_move.yml", "version": 1},
-         max_episode_steps=50)
-
-register(id='LiftSpread-v1',
-         entry_point=f"plb.envs.multitask_env:MultitaskPlasticineEnv",
-         kwargs={'cfg_path': "lift_spread.yml", "version": 1},
-         max_episode_steps=50)
-
-register(id='CutRearrange-v1',
-         entry_point=f"plb.envs.multitask_env:MultitaskPlasticineEnv",
-         kwargs={'cfg_path': "../cut/cut_rearrange.yml", "version": 1},
-         max_episode_steps=50)
 
 register(id='Roll-v3', # roll to 2d 150
          entry_point=f"plb.envs.multitask_env:MultitaskPlasticineEnv",
