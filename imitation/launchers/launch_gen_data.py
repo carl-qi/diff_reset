@@ -43,7 +43,7 @@ episode_length = {
 @click.option('--run_name', type=str, default='')
 @click.option('--debug/--no-debug', default=True)
 @click.option('--dry/--no-dry', default=False)
-@click.option('--opt_mode', type=str, default='multireset')
+@click.option('--opt_mode', type=str, default='diffreset')
 @click.option('--num_moves', type=int, default=1)
 @click.option('--seed', type=int, default=0)
 def main(mode, env, debug, dry, run_name, opt_mode, num_moves, seed):
@@ -80,8 +80,8 @@ def main(mode, env, debug, dry, run_name, opt_mode, num_moves, seed):
     vg.add('use_wandb', [not debug])
     if debug:
         exp_prefix += '_debug'
-        vg.add('num_trajs', [10])
-        vg.add('gd_max_iter', [200])
+        vg.add('num_trajs', [1])
+        vg.add('gd_max_iter', [10])
     else:
         vg.add('num_trajs', [10])
         vg.add('gd_max_iter', [1000])

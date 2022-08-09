@@ -3,7 +3,7 @@ from .env import PlasticineEnv
 from gym import register
 
 ENVS = [] 
-register(id='RollExp-v1', # Official!!!
+register(id='RollExp-v1',
          entry_point=f"plb.envs.multitask_env:MultitaskPlasticineEnv",
          kwargs={'cfg_path': "roll_official.yml", "version": 1},
          max_episode_steps=170)

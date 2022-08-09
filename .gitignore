@@ -4,6 +4,7 @@
 *.ipynb_checkpoints
 
 plotting
+arxived
 iros_media
 data
 tests
@@ -22,8 +23,7 @@ datasets
 *.so*
 *build
 
-
-#third_party
+# third_party
 wandb
 submissions
 plb/envs/arxived

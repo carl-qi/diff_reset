@@ -58,7 +58,7 @@ def generate_reset_motion(buffer, env, max_reset_length=20, **kwargs):
 
 
 def run_task(arg_vv, log_dir, exp_name):  # Chester launch
-    from imitation.train_full import get_args
+    from imitation.args import get_args
     from plb.envs.mp_wrapper import make_mp_envs
     args = get_args(cmd=False)
     args.env_name = 'LiftSpread-v1'

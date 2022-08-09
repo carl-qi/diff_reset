@@ -40,7 +40,7 @@ def run_sandbox():
     os.makedirs(env_save_dir, exist_ok=True)
 
     from plb.envs import make
-    from imitation.train import get_args
+    from imitation.args import get_args
     from plb.engine.taichi_env import TaichiEnv
     from plb.optimizer.solver import Solver
     from plb.algorithms.logger import Logger

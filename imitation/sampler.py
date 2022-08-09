@@ -126,26 +126,6 @@ def sample_traj(env, agent, reset_key, tid, buffer=None, action_mask=None, actio
                             state_tensor = torch.FloatTensor(np.concatenate([state[:3000].reshape(1, -1, 3), \
                                                             state[3000:3300].reshape(1, -1, 3), ], axis=1)).to(agent.device)
                             stack_states = torch.cat([stack_states, state_tensor], dim=-1)[:, :, -frame_stack*3:]
-                            if False:
-                                import matplotlib.pyplot as plt
-                                fig = plt.figure(figsize=(8,8))
-                                ax = fig.add_subplot(111, projection='3d')
-                                ax.view_init(140, -90)
-                                ax.set_xlim3d(0.2, 0.8)
-                                ax.set_ylim3d(0, 0.5)
-                                ax.set_zlim3d(0.2, 0.8)
-                                ax.scatter(stack_states[0,:1000,0].cpu(), stack_states[0,:1000,1].cpu(), stack_states[0,:1000,2].cpu(), marker='o', alpha=0.5, s=2)
-                                ax.scatter(stack_states[0,1000:1100,0].cpu(), stack_states[0,1000:1100,1].cpu(), stack_states[0,1000:1100,2].cpu(), marker='o', alpha=0.5, s=2)
-                                ax.scatter(target_goal_grid[0,:,0].cpu(), target_goal_grid[0,:,1].cpu(), target_goal_grid[0,:,2].cpu(), marker='x', alpha=0.5, s=2)
-                                ax.set_xlabel('x')
-                                ax.set_ylabel('y')
-                                ax.set_zlabel('z')
-                                # create file name and append it to a list
-                                filename = f'{i}.png'
-
-                                filenames.append(filename)
-                                plt.show()
-                                breakpoint()
                         else:
                             # dough
                             dough_pcl = np.zeros((1,1000,3))
@@ -176,59 +156,8 @@ def sample_traj(env, agent, reset_key, tid, buffer=None, action_mask=None, actio
                                 pcl -= tool_xyz
                                 tool_xyz = torch.FloatTensor(tool_xyz).to(agent.device)
                                 action, done = agent.act_partial_pcl(obs_pcl, obs_pcl_len, goal_pcl, goal_pcl_len, tid, eval=agent.args.rm_eval_noise, tool_xyz=tool_xyz)
-                            elif agent.args.actor_type == 'PointActorToolParticle':
-                                pred_tool_flow = agent.act_partial_pcl(obs_pcl, obs_pcl_len, goal_pcl, goal_pcl_len, tid, eval=agent.args.rm_eval_noise)
-                                pred_tool_flow = pred_tool_flow[0].detach().cpu().numpy()
-                                # visualize it 
-                                # rigid_transform_3D
-                                if False:
-                                    import matplotlib.pyplot as plt
-                                    fig = plt.figure(figsize=(8,8))
-                                    ax = fig.add_subplot(111, projection='3d')
-                                    ax.view_init(140, -90)
-                                    ax.set_xlim3d(0.2, 0.8)
-                                    ax.set_ylim3d(0, 0.5)
-                                    ax.set_zlim3d(0.2, 0.8)
-                                    ax.scatter(pcl1[:,0], pcl1[:,1], pcl1[:,2], marker='o', alpha=0.5, s=2)
-                                    ax.scatter(pcl2[:,0], pcl2[:,1], pcl2[:,2], marker='o', alpha=0.5, s=2)
-                                    ax.scatter(pcl[:,0], pcl[:,1], pcl[:,2], marker='x', alpha=0.5, s=2)
-                                    ax.set_xlabel('x')
-                                    ax.set_ylabel('y')
-                                    ax.set_zlabel('z')
-                                    ax.quiver(pcl2[:,0], pcl2[:,1], pcl2[:,2], pred_tool_flow[:,0], pred_tool_flow[:,1], pred_tool_flow[:,2], 
-                                    length=0.1, normalize=True, color='red')
-                                    plt.show()
-                                    # print("predicted flow:", pred_tool_flow[:10])
-
-                                r, t = rigid_transform_3D(pcl2.T, (pcl2+pred_tool_flow).T)
-                                action = torch.from_numpy(get_roller_action_from_transform(r, t).reshape(1, 6))
-                                # print("predicted action:", action)
-                                done = torch.zeros(size=(1,1))
                             else:
                                 action, done = agent.act_partial_pcl(obs_pcl, obs_pcl_len, goal_pcl, goal_pcl_len, tid, eval=agent.args.rm_eval_noise)
-                            if False:
-                                import matplotlib.pyplot as plt
-                                fig = plt.figure(figsize=(8,8))
-                                ax = fig.add_subplot(111, projection='3d')
-                                ax.view_init(140, -90)
-                                ax.set_xlim3d(0.2, 0.8)
-                                ax.set_ylim3d(0, 0.5)
-                                ax.set_zlim3d(0.2, 0.8)
-                                ax.scatter(pcl1[:,0], pcl1[:,1], pcl1[:,2], marker='o', alpha=0.5, s=2)
-                                ax.scatter(pcl2[:,0], pcl2[:,1], pcl2[:,2], marker='o', alpha=0.5, s=2)
-                                ax.scatter(pcl[:,0], pcl[:,1], pcl[:,2], marker='x', alpha=0.5, s=2)
-                                ax.set_xlabel('x')
-                                ax.set_ylabel('y')
-                                ax.set_zlabel('z')
-                                # create file name and append it to a list
-                                filename = f'{i}.png'
-
-                                filenames.append(filename)
-                                plt.show()
-                                # breakpoint()
-                            #     plt.savefig(os.path.join('data/debug/pcl', filename))
-                            #     plt.close()
-                            # breakpoint()
                         action = action[0].detach().cpu().numpy()
                         done = done[0].detach().cpu().numpy()
                 if np.round(done).astype(int) == 1 and agent.terminate_early:
@@ -386,21 +315,7 @@ def sample_traj(env, agent, reset_key, tid, buffer=None, action_mask=None, actio
         infos = [info]
         actions = []
         for move in range(num_moves):
-            load = np.load('init_actions.npy')
             init_action = np.zeros([T, taichi_env.primitives.action_dim],dtype=np.float32)
-            init_action[:50] = load[:50]
-            init_action[50:100] = load[-50:]
-            # for t in agent.reset_ts:
-            #     init_action[t-20:t] = load[-20:]
-            # if init == 'zero':
-            #     init_action = np.zeros([T, taichi_env.primitives.action_dim],dtype=np.float32)
-            # elif init == 'normal':
-            #     init_action = np.random.normal(size=(T, taichi_env.primitives.action_dim))
-            # if buffer != None:
-            #     init_action[:50] = buffer.buffer['actions'][:50]
-                # init_action[:20] = np.tile(np.array([0., 0., -0.5, 0., 0., 0.]), (20, 1))
-                # init_action[100:120] = np.tile(np.array([0., 1., -0.5, 0., 0., 0.]), (20, 1))
-                # breakpoint()
             info = agent.solve(init_action, action_mask=action_mask, loss_fn=taichi_env.compute_loss, max_iter=agent.args.gd_max_iter, lr=agent.args.lr)
             agent.save_plot_buffer(logger.get_dir())
             if agent.args.debug_gradient:
@@ -426,33 +341,9 @@ def sample_traj(env, agent, reset_key, tid, buffer=None, action_mask=None, actio
                 total_r += reward
                 rewards.append(reward)
 
-                # if i == 100:
-                #     print("MPC!")
-                #     init_action = np.zeros([T-100, taichi_env.primitives.action_dim],dtype=np.float32)
-                #     info = agent.solve(init_action, action_mask=action_mask, loss_fn=taichi_env.compute_loss, max_iter=agent.args.gd_max_iter2, lr=agent.args.lr)
-                #     agent.save_plot_buffer(logger.get_dir(), postfix='2')
-                #     actions.extend(info['best_action'])
-                #     agent_time = time.time() - st_time
-
             target_img = env.target_img
             if reset_primitive and move < num_moves - 1:
-                # state_copy = next_state[-16:-9]
-                # p = R.from_quat([state_copy[4], state_copy[5], state_copy[6], state_copy[3]])
-                # q = R.from_rotvec(np.pi/2 * np.array([0, 1, 0])) # hard coded rotate 90 around y-axis for now
-                # quat = R.as_quat(q*p)
-                # reset_state = np.array([primitive_states[0][0], primitive_states[0][1], primitive_states[0][2], quat[-1], quat[0], quat[1], quat[2]])
-                # reset_states, _, reset_obs, _, reset_info = env.primitive_reset_to(idx=tid, reset_states=primitive_state)
-                # states[-1] = reset_states[-1]
-                # obses[-1] = reset_obs[-1]
-                # infos[-1] = reset_info[-1]
-                # reset_obses.append(reset_obs)
-                # reset_infos.append(reset_info)
                 env.taichi_env.primitives[0].set_state(0, primitive_states[0])
-    # import imageio
-    # with imageio.get_writer(os.path.join('data/debug/pcl','partial_pcl.gif'), mode='I') as writer:
-    #     for filename in filenames:
-    #         image = imageio.imread(os.path.join('data/debug/pcl',filename))
-    #         writer.append_data(image)
     
     emds = np.array([info['info_emd'] for info in infos])
     if len(infos) > 0:
@@ -482,27 +373,4 @@ def sample_traj(env, agent, reset_key, tid, buffer=None, action_mask=None, actio
         ret['scores'] = np.array(scores)
     if reset_key is not None:
         ret.update(**reset_key)
-    if False:
-        ### for resets
-        max_reset_length = 20
-        obs_shape, dtype = np.array(obses[0]).shape, np.array(obses[0]).dtype
-        reset_motion_obses = np.zeros([num_moves, max_reset_length, *obs_shape], dtype=dtype)
-        reset_info_emds = np.zeros([num_moves, max_reset_length], dtype=np.float32)
-        reset_motion_lens = np.zeros(shape=(num_moves,), dtype=np.int32)
-        for i in range(num_moves):
-            reset_ob = reset_obses[i]
-            if len(reset_ob) == 0:
-                continue
-            reset_emds = np.array([info['info_emd'] for info in reset_infos[i]])
-            if len(reset_ob) > max_reset_length:
-                idx = sorted(np.random.choice(range(len(reset_ob)), max_reset_length, replace=False))
-                reset_ob = reset_ob[idx]
-                reset_emds = reset_emds[idx]
-            reset_motion_obses[i, :len(reset_ob)] = reset_ob
-            reset_info_emds[i, :len(reset_ob)] = reset_emds
-            reset_motion_lens[i] = len(reset_ob)
-        ret.update({'reset_motion_obses':reset_motion_obses, 
-                    'reset_motion_lens':reset_motion_lens,
-                    'reset_info_emds':reset_info_emds,
-        })
     return ret

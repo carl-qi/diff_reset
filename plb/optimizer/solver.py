@@ -61,7 +61,7 @@ class Solver:
             observations = self.func.reset(initial_state['state'])
             cached_obs = []
             for idx, i in enumerate(action):
-                if self.args.opt_mode == 'manual' and self.args.eps_length ==170:  # manual reset module max_step=170
+                if self.args.opt_mode == 'diffreset' and self.args.eps_length ==170:  # manual reset module max_step=170
                     if idx < 50 or idx >=120:
                         observations = self.func.forward(idx, i, None, *observations)
                         cached_obs.append(observations)
@@ -108,7 +108,7 @@ class Solver:
                 loss = loss.item()
                 losses = [l.detach().cpu().numpy() for l in all_losses]
                 last = action.data.detach().cpu().numpy()
-                if self.args.opt_mode=='manual' and self.args.eps_length == 170:
+                if self.args.opt_mode=='diffreset' and self.args.eps_length == 170:
                     new_last = -1*last[49::-1]
                     new_last[30:, 2:3] *= 0.
                     rotation = np.tile(np.array([0., 1., 0., 0., 0., 0.]), (20, 1))

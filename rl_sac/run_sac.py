@@ -24,6 +24,29 @@ from rl_sac.sac import SAC
 from imitation.buffer import ReplayBuffer
 from imitation.env_spec import get_threshold
 
+class Traj(object):
+    def __init__(self, num_env):
+        self.num_env = num_env
+        self.traj = [{} for _ in range(num_env)]
+        self.keys = ['states', 'actions', 'rewards', 'init_v', 'target_v', 'action_mask', 'dough_pcl', 
+        'dough_pcl_len', 'goal_pcl', 'goal_pcl_len', 'tool_pcl', 'tool_pcl_len']
+        for i in range(num_env):
+            for key in self.keys:
+                self.traj[i][key] = []
+
+    def add(self, **kwargs):
+        for i in range(self.num_env):
+            for key, val in kwargs.items():
+                self.traj[i][key].append(val[i])
+
+    def get_trajs(self):
+        trajs = []
+        for i in range(self.num_env):
+            traj = {}
+            for key in self.keys:
+                traj[key] = np.array(self.traj[i][key])
+            trajs.append(traj)
+        return trajs
 
 # Runs policy for X episodes and returns average reward
 # A fixed seed is used for the eval environment
@@ -224,7 +247,6 @@ def train_sac(args, env):
     device = 'cpu'
     target_info = load_target_info(args, device)
     replay_buffer.__dict__.update(**target_info)
-    from rl_td3.run_td3 import Traj
 
     # Training Loop
     episode_timesteps = 0
