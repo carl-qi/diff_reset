@@ -2,6 +2,7 @@
 *.xz
 *.png
 *.ipynb_checkpoints
+
 plotting
 iros_media
 data
@@ -10,31 +11,19 @@ debug*
 chester
 datasets
 *.avi
-*feh_*
 *.pkl
 *__pycache__*
 *tmp*
 *.idea
 *.DS_Store*
 *egg-info*
-*.ply*
-*linecount*
-*pytest_cache*
 *.vscode*
-*dsprites-dataset*
-
-*.code-workspace*
 
 *.so*
 *build
 
-*imgui.ini*
 
 #third_party
-*logs*
-
-rl2seq
 wandb
 submissions
-*plot_table*
-*tools*
+plb/envs/arxived

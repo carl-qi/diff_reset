@@ -1,4 +1,4 @@
-# smaller rollingpin bigger E, for poicy training
+# smaller rollingpin bigger E, bigger dough for poicy training
 SIMULATOR:
   E: 10000.
   n_particles: 10000

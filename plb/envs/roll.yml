@@ -1,3 +1,4 @@
+# roll to 2d
 SIMULATOR:
   E: 5000.
   n_particles: 10000
