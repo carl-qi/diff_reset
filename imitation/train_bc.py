@@ -191,7 +191,6 @@ def run_task(arg_vv, log_dir, exp_name):  # Chester launch
     total_steps = 0
     for epoch in range(args.il_num_epoch):
         print('----------- epoch: {0} -----------'.format(epoch))
-        # import pdb; pdb.set_trace()
         epoch_tool_idxes = [buffer.get_epoch_tool_idx(epoch, tid) for tid in [0]]
         train_infos = []
         for batch_tools_idx in tqdm(zip(*epoch_tool_idxes)):

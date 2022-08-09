@@ -42,7 +42,7 @@ class ReplayBuffer(object):
         if eval_train:
             self.train_traj_idx = traj_idxes
         else:
-            self.train_traj_idx= np.array([i for i in traj_idxes if i not in self.hard_coded_eval_idxes])
+            self.train_traj_idx = np.array([i for i in traj_idxes if i not in self.hard_coded_eval_idxes])
         
         self.train_idx = (self.train_traj_idx.reshape(-1, 1) * self.horizon + np.arange(self.horizon).reshape(1, -1)).flatten()
         self.eval_idx = (self.eval_traj_idx.reshape(-1, 1) * self.horizon + np.arange(self.horizon).reshape(1, -1)).flatten()
