@@ -7,6 +7,8 @@ This repository contains the official implementation of the following paper:
 
 Carl Qi, Xingyu Lin, David Held
 
+[Website](https://sites.google.com/view/dough-manipulation) /  [Paper](https://arxiv.org/pdf/2207.04638)
+
 ## Usage
 1. Install `python3 -m pip install -e .`
 2. Install [torch (version 1.9.0 tested)](https://pytorch.org/get-started/previous-versions/)
